@@ -1,0 +1,80 @@
+#!/bin/bash
+
+clear
+
+chmod +x aws-cliv2
+
+###Check unzip Package and install
+
+function find_unzip {  
+  # ls -l $(sed 's/:/\n/g' <<< $PATH) | grep ^unzip &>/dev/null
+ ls  $(sed 's/:/\n/g' <<< $PATH) | grep ^unzip &>/dev/null 
+
+    if [ $(echo $? == 0) ]
+    then
+    echo
+    echo "unzip package available"
+    echo
+    find_aws
+    elif [ $(echo $? == 1) ]
+    then
+	echo "Downloading Unzip Package"
+        OS=`cat /etc/os-release | grep -i "pretty" | awk -F=  '{print $2}'`
+        case $OS in
+            *"Manjaro"* | *"Arch"*)
+            sudo pacman install unzip
+            ;;
+
+            *"Debian"* | *"Ubuntu"*)
+            sudo apt-get install unzip -y
+            ;;
+
+            *"Fedora"*)
+            sudo dnf install unzip -y
+            ;;
+
+            *"Red Hat"*)
+            sudo yum install unzip -y
+            ;;
+
+            *"CentOS"*)
+            sudo yum install unzip -y
+            ;;
+        esac
+        find_aws
+    fi
+}
+
+
+##check for aws package and install
+
+function find_aws { 
+  # ls -l $(sed 's/:/\n/g' <<< $PATH)  | grep ^aws &>/dev/null
+   ls  $(sed 's/:/\n/g' <<< $PATH) | grep ^aws &>/dev/null   
+     
+    if [ $(echo $?) == 0 ]
+        then
+        echo
+        echo "aws installed"
+        echo
+        elif [ $(echo $? == 1) ]
+        then
+            if [ -e awscliv2.zip ]
+                then
+                unzip awscliv2.zip
+                sudo ./aws/install
+                elif [ -d aws ]
+                then
+                sudo ./aws/install
+                else
+                curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+                unzip awscliv2.zip
+                sudo ./aws/install
+            fi
+
+    fi
+
+}
+
+
+find_unzip
