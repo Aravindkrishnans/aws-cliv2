@@ -7,7 +7,7 @@ chmod +x aws-cliv2
 ###Check unzip Package and install
 
 function find_unzip {  
-  # ls -l $(sed 's/:/\n/g' <<< $PATH) | grep ^unzip &>/dev/null
+  
  ls  $(sed 's/:/\n/g' <<< $PATH) | grep ^unzip &>/dev/null 
 
     if [ $(echo $? == 0) ]
@@ -49,7 +49,7 @@ function find_unzip {
 ##check for aws package and install
 
 function find_aws { 
-  # ls -l $(sed 's/:/\n/g' <<< $PATH)  | grep ^aws &>/dev/null
+ 
    ls  $(sed 's/:/\n/g' <<< $PATH) | grep ^aws &>/dev/null   
      
     if [ $(echo $?) == 0 ]
